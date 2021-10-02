@@ -24,8 +24,8 @@ import EditorJS from '@editorjs/editorjs';
 
 // Plugins
 import SimpleImageTool from '@editorjs/simple-image';
-import ParagraphTool from '@editorjs/paragraph';
-import QuoteTool from '@editorjs/quote';
+import ParagraphTool from './topos-tools/topos-paragraph';
+import QuoteTool from './topos-tools/topos-quote';
 import WarningTool from '@editorjs/warning';
 import ChecklistTool from '@editorjs/checklist';
 import DelimiterTool from '@editorjs/delimiter';
@@ -44,8 +44,8 @@ import ListTool from './custom-plugins/plugin-list-patch';
 import ImageTool from './custom-plugins/plugin-image-patch';
 import AttachesTool from './custom-plugins/plugin-attaches-patch';
 import PersonalityTool from './custom-plugins/plugin-personality-patch';
-import FootnotesTune from '@editorjs/footnotes/dist/bundle';
-import Carousel from './custom-tools/carousel/src/index.js';
+import FootnotesTune from '@editorjs/footnotes';
+import Carousel from './topos-tools/topos-gallery';
 import EditorJSLayout from 'editorjs-layout';
 
 export default defineComponent({
@@ -443,4 +443,5 @@ export default defineComponent({
 
 <style src="./editorjs-content-reset.css"></style>
 <style src="./editorjs-components.css"></style>
-<style src="./custom-tools/carousel/src/index.css"></style>
+<style src="./topos-tools/topos-image/index.scss" lang="scss"></style>
+<style src="./topos-tools/topos-gallery/index.css"></style>
