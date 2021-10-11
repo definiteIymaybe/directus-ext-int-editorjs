@@ -59,6 +59,7 @@ export default defineInterface({
 						{ value: 'table', text: 'Table' },
 						{ value: 'quote', text: 'Quote' },
 						{ value: 'marker', text: 'Marker' },
+						{ value: 'footnote', text: 'Footnote' },
 						{ value: 'simpleimage', text: 'Simple Image' },
 						{ value: 'underline', text: 'Underline' },
 						{ value: 'inlinecode', text: 'Inline Code' },

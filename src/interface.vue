@@ -51,6 +51,7 @@ import ListTool from './custom-plugins/plugin-list-patch';
 import ImageTool from './custom-plugins/plugin-image-patch';
 import AttachesTool from './custom-plugins/plugin-attaches-patch';
 import PersonalityTool from './custom-plugins/plugin-personality-patch';
+import FootnotesTune from '@editorjs/footnotes/dist/bundle';
 
 export default defineComponent({
 	emits: ['input', 'error'],
@@ -71,6 +72,7 @@ export default defineComponent({
 			type: Array,
 			default: () => ['header', 'list', 'code', 'image', 'paragraph', 'delimiter', 'checklist', 'quote', 'underline'],
 		},
+		tunes: ['footnote'],
 		font: {
 			type: String,
 			default: 'sans-serif',
@@ -131,7 +133,7 @@ export default defineComponent({
 		onMounted(() => {
 			editorjsInstance.value = new EditorJS({
 				// @ts-ignore
-				logLevel: 'ERROR',
+				logLevel: 'VERBOSE',
 				holder: editorElement.value,
 				data: getPreparedValue(props.value),
 				// Readonly makes troubles in some cases, also requires all plugins to implement it.
@@ -260,6 +262,7 @@ export default defineComponent({
 				paragraph: {
 					class: ParagraphTool,
 					inlineToolbar: true,
+					tunes: ['footnote'],
 				},
 				code: {
 					class: CodeTool,
@@ -296,6 +299,10 @@ export default defineComponent({
 				marker: {
 					class: MarkerTool,
 					shortcut: 'CMD+SHIFT+M',
+				},
+				footnote: {
+					class: FootnotesTune,
+					shortcut: 'CMD+SHIFT+F',
 				},
 				inlinecode: {
 					class: InlineCodeTool,
