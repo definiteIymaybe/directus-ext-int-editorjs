@@ -52,6 +52,7 @@ import ImageTool from './custom-plugins/plugin-image-patch';
 import AttachesTool from './custom-plugins/plugin-attaches-patch';
 import PersonalityTool from './custom-plugins/plugin-personality-patch';
 import FootnotesTune from '@editorjs/footnotes/dist/bundle';
+import CarouselTool from './custom-tools/carousel/dist/bundle';
 
 export default defineComponent({
 	emits: ['input', 'error'],
@@ -327,6 +328,14 @@ export default defineComponent({
 						uploader: uploaderConfig,
 					},
 				},
+				    carousel: {
+                    class: Carousel,
+                    config: {
+                        endpoints: {
+                            byFile: "URL_FETCH",
+                        }
+                    }
+                },
 				attaches: {
 					class: AttachesTool,
 					config: {
