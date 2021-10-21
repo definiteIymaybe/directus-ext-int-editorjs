@@ -44,7 +44,18 @@ export default defineInterface({
 			name: '$t:interfaces.input-rich-text-html.toolbar',
 			type: 'json',
 			schema: {
-				default_value: ['header', 'list', 'code', 'image', 'paragraph', 'delimiter', 'checklist', 'quote', 'underline'],
+				default_value: [
+					'header',
+					'list',
+					'code',
+					'image',
+					'paragraph',
+					'delimiter',
+					'checklist',
+					'quote',
+					'underline',
+					'footnote',
+				],
 			},
 			meta: {
 				width: 'half',
@@ -53,8 +64,8 @@ export default defineInterface({
 					choices: [
 						{ value: 'alert', text: 'Alert' },
 						{ value: 'attaches', text: 'Attaches' },
+						{ value: 'carousel', text: 'Carousel' },
 						{ value: 'checklist', text: 'Checklist' },
-						{ value: 'carousel', text: 'Checklist' },
 						{ value: 'code', text: 'Code' },
 						{ value: 'delimiter', text: 'Delimiter' },
 						{ value: 'embed', text: 'Embed' },
@@ -62,6 +73,7 @@ export default defineInterface({
 						{ value: 'header', text: 'Header' },
 						{ value: 'image', text: 'Image' },
 						{ value: 'inlinecode', text: 'Inline Code' },
+						{ value: 'layout', text: 'Layout' },
 						{ value: 'list', text: 'List' },
 						{ value: 'marker', text: 'Marker' },
 						{ value: 'paragraph', text: 'Paragraph' },

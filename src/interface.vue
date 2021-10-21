@@ -5,14 +5,7 @@
 				<i18n-t keypath="upload_from_device" />
 			</v-card-title>
 			<v-card-text>
-				<v-upload
-					:ref="uploaderComponentElement"
-					@input="handleFile"
-					:multiple="false"
-					:folder="folder"
-					from-library
-					from-url
-				/>
+				<v-upload :ref="uploaderComponentElement" @input="handleFile" multiple :folder="folder" from-library />
 			</v-card-text>
 			<v-card-actions>
 				<v-button secondary @click="unsetFileHandler">
@@ -52,7 +45,8 @@ import ImageTool from './custom-plugins/plugin-image-patch';
 import AttachesTool from './custom-plugins/plugin-attaches-patch';
 import PersonalityTool from './custom-plugins/plugin-personality-patch';
 import FootnotesTune from '@editorjs/footnotes/dist/bundle';
-import CarouselTool from './custom-tools/carousel/dist/bundle';
+import Carousel from './custom-tools/carousel/src/index.js';
+import EditorJSLayout from 'editorjs-layout';
 
 export default defineComponent({
 	emits: ['input', 'error'],
@@ -71,7 +65,18 @@ export default defineComponent({
 		},
 		tools: {
 			type: Array,
-			default: () => ['header', 'list', 'code', 'image', 'paragraph', 'delimiter', 'checklist', 'quote', 'underline'],
+			default: () => [
+				'header',
+				'list',
+				'code',
+				'image',
+				'paragraph',
+				'delimiter',
+				'checklist',
+				'quote',
+				'underline',
+				'footnote',
+			],
 		},
 		tunes: ['footnote'],
 		font: {
@@ -210,6 +215,7 @@ export default defineComponent({
 		}
 
 		function handleFile(event) {
+			console.log('handleFile (event)', event);
 			fileHandler.value(event);
 			unsetFileHandler();
 		}
@@ -246,81 +252,44 @@ export default defineComponent({
 			};
 
 			const defaults = {
-				header: {
-					class: HeaderTool,
-					shortcut: 'CMD+SHIFT+H',
-					inlineToolbar: true,
-				},
-				list: {
-					class: ListTool,
-					inlineToolbar: true,
-					shortcut: 'CMD+SHIFT+1',
-				},
-				embed: {
-					class: EmbedTool,
-					inlineToolbar: true,
-				},
-				paragraph: {
-					class: ParagraphTool,
-					inlineToolbar: true,
-					tunes: ['footnote'],
-				},
-				code: {
-					class: CodeTool,
-				},
-				warning: {
-					class: WarningTool,
-					inlineToolbar: true,
-					shortcut: 'CMD+SHIFT+W',
-				},
-				underline: {
-					class: UnderlineTool,
-					shortcut: 'CMD+SHIFT+U',
-				},
-				textalign: {
-					class: TextAlignTool,
-					inlineToolbar: true,
-					shortcut: 'CMD+SHIFT+A',
-				},
-				strikethrough: {
-					class: StrikethroughTool,
-				},
 				alert: {
 					class: AlertTool,
 				},
-				table: {
-					class: TableTool,
-					inlineToolbar: true,
+				attaches: {
+					class: AttachesTool,
+					config: {
+						uploader: uploaderConfig,
+					},
 				},
-				quote: {
-					class: QuoteTool,
-					inlineToolbar: true,
-					shortcut: 'CMD+SHIFT+O',
-				},
-				marker: {
-					class: MarkerTool,
-					shortcut: 'CMD+SHIFT+M',
-				},
-				footnote: {
-					class: FootnotesTune,
-					shortcut: 'CMD+SHIFT+F',
-				},
-				inlinecode: {
-					class: InlineCodeTool,
-					shortcut: 'CMD+SHIFT+I',
-				},
-				delimiter: {
-					class: DelimiterTool,
-				},
-				raw: {
-					class: RawToolTool,
+				carousel: {
+					class: Carousel,
+					config: {
+						uploader: uploaderConfig,
+					},
 				},
 				checklist: {
 					class: ChecklistTool,
 					inlineToolbar: true,
 				},
-				simpleimage: {
-					class: SimpleImageTool,
+				code: {
+					class: CodeTool,
+				},
+				delimiter: {
+					class: DelimiterTool,
+				},
+				embed: {
+					class: EmbedTool,
+					inlineToolbar: true,
+				},
+				footnote: {
+					class: FootnotesTune,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+F',
+				},
+				header: {
+					class: HeaderTool,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+H',
 				},
 				image: {
 					class: ImageTool,
@@ -328,25 +297,102 @@ export default defineComponent({
 						uploader: uploaderConfig,
 					},
 				},
-				    carousel: {
-                    class: Carousel,
-                    config: {
-                        endpoints: {
-                            byFile: "URL_FETCH",
-                        }
-                    }
-                },
-				attaches: {
-					class: AttachesTool,
+				inlinecode: {
+					class: InlineCodeTool,
+					shortcut: 'CMD+SHIFT+I',
+				},
+				layout: {
+					class: EditorJSLayout.LayoutBlockTool,
 					config: {
-						uploader: uploaderConfig,
+						EditorJS,
+						editorJSConfig: {},
+						enableLayoutEditing: true,
+						enableLayoutSaving: true,
+						initialData: {
+							itemContent: {
+								1: {
+									blocks: [],
+								},
+							},
+							layout: {
+								type: 'container',
+								id: '',
+								className: '',
+								style: 'border: 1px solid #000000; ',
+								children: [
+									{
+										type: 'item',
+										id: '',
+										className: '',
+										style: 'border: 1px solid #000000; display: inline-block; ',
+										itemContentId: '1',
+									},
+								],
+							},
+						},
 					},
+					shortcut: 'CMD+SHIFT+L',
+					toolbox: {
+						icon: `
+              <svg xmlns='http://www.w3.org/2000/svg' width="16" height="16" viewBox='0 0 512 512'>
+                <rect x='128' y='128' width='336' height='336' rx='57' ry='57' fill='none' stroke='currentColor' stroke-linejoin='round' stroke-width='32'/>
+                <path d='M383.5 128l.5-24a56.16 56.16 0 00-56-56H112a64.19 64.19 0 00-64 64v216a56.16 56.16 0 0056 56h24' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+              </svg>
+            `,
+						title: '2 columns',
+					},
+				},
+				list: {
+					class: ListTool,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+1',
+				},
+				marker: {
+					class: MarkerTool,
+					shortcut: 'CMD+SHIFT+M',
+				},
+				paragraph: {
+					class: ParagraphTool,
+					inlineToolbar: true,
+					tunes: ['footnote'],
 				},
 				personality: {
 					class: PersonalityTool,
 					config: {
 						uploader: uploaderConfig,
 					},
+				},
+				quote: {
+					class: QuoteTool,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+O',
+				},
+				raw: {
+					class: RawToolTool,
+				},
+				simpleimage: {
+					class: SimpleImageTool,
+				},
+				strikethrough: {
+					class: StrikethroughTool,
+				},
+				table: {
+					class: TableTool,
+					inlineToolbar: true,
+				},
+				textalign: {
+					class: TextAlignTool,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+A',
+				},
+				underline: {
+					class: UnderlineTool,
+					shortcut: 'CMD+SHIFT+U',
+				},
+				warning: {
+					class: WarningTool,
+					inlineToolbar: true,
+					shortcut: 'CMD+SHIFT+W',
 				},
 			};
 
@@ -397,3 +443,4 @@ export default defineComponent({
 
 <style src="./editorjs-content-reset.css"></style>
 <style src="./editorjs-components.css"></style>
+<style src="./custom-tools/carousel/src/index.css"></style>

@@ -48,6 +48,8 @@ export default class Uploader {
 						size: file.filesize,
 						name: file.filename_download,
 						title: file.title,
+						description: file.description,
+						source: file.source,
 						extension: file.filename_download.split('.').pop(),
 						fileId: file.id,
 						fileURL: this.config.uploader.baseURL + 'files/' + file.id,
