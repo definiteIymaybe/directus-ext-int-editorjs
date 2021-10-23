@@ -66,6 +66,8 @@ export default class Tunes {
    * @returns {Element}
    */
   render(toolData) {
+    console.log('render(toolData)', toolData)
+
     const wrapper = make('div', this.CSS.wrapper);
 
     this.buttons = [];
@@ -105,6 +107,9 @@ export default class Tunes {
    * @param {Function} customFunction - function to execute on click
    */
   tuneClicked(tuneName, customFunction) {
+
+    console.log('tuneClicked({})', { tuneName, customFunction })
+
     if (typeof customFunction === 'function') {
       if (!customFunction(tuneName)) {
         return false;

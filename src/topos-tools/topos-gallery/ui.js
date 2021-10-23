@@ -1,4 +1,4 @@
-const buttonIcon = `<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"/></svg>`
+import buttonIcon from './svg/button-icon.svg';
 
 /**
  * Class for working with UI:
@@ -8,54 +8,56 @@ const buttonIcon = `<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http:
  */
 export default class Ui {
   /**
-   * @param {object} ui - image tool Ui module
-   * @param {object} ui.api - Editor.js API
-   * @param {ImageConfig} ui.config - user config
-   * @param {Function} ui.onSelectFile - callback for clicks on Select file button
-   * @param {boolean} ui.readOnly - read-only mode flag
+   * @param {object} api - Editor.js API
+   * @param {ImageConfig} config - user config
+   * @param {function} onSelectFile - callback for clicks on Select file buttor
    */
-  constructor({ api, config, onSelectFile, readOnly }) {
+  constructor({ api, config, onSelectFile }) {
     this.api = api;
     this.config = config;
     this.onSelectFile = onSelectFile;
-    this.readOnly = readOnly;
     this.nodes = {
+      list: make('div', [ this.CSS.baseClass ]),
+      item: make('div', [this.CSS.baseClass, this.CSS.wrapper]),
       wrapper: make('div', [this.CSS.baseClass, this.CSS.wrapper]),
-      imageContainer: make('div', [this.CSS.imageContainer]),
+      imageContainer: make('div', [ this.CSS.imageContainer ]),
       fileButton: this.createFileButton(),
+      addButton: this.createAddButton(),
       imageEl: undefined,
       imagePreloader: make('div', this.CSS.imagePreloader),
       caption: make('div', [this.CSS.input, this.CSS.caption], {
-        contentEditable: !this.readOnly,
-      }),
-      source: make('div', [this.CSS.input, this.CSS.source], {
-        contentEditable: !this.readOnly,
-      }),
+        contentEditable: true
+      })
     };
 
     /**
      * Create base structure
      *  <wrapper>
-     *    <image-container>
-     *      <image-preloader />
-     *    </image-container>
-     *    <caption />
-     *    <select-file-button />
+     *    <list>
+     *       <item>
+     *           <image-container>
+     *           <image-preloader />
+     *           </image-container>
+     *           <caption />
+     *           <select-file-button />
+     *        </item>
+     *    </list>
+     *    <add-button />
      *  </wrapper>
      */
     this.nodes.caption.dataset.placeholder = this.config.captionPlaceholder;
-    this.nodes.source.dataset.placeholder = this.config.sourcePlaceholder;
     this.nodes.imageContainer.appendChild(this.nodes.imagePreloader);
-
-    ['imageContainer', 'caption', 'source', 'fileButton'].forEach((nodeName) => {
-      this.nodes.wrapper.appendChild(this.nodes[nodeName])
-    })
+    this.nodes.item.appendChild(this.nodes.imageContainer);
+    this.nodes.item.appendChild(this.nodes.caption);
+    this.nodes.item.appendChild(this.nodes.fileButton);
+    this.nodes.list.appendChild(this.nodes.item);
+    this.nodes.wrapper.appendChild(this.nodes.list);
+    this.nodes.wrapper.appendChild(this.nodes.addButton);
   }
 
   /**
    * CSS classes
-   *
-   * @returns {object}
+   * @constructor
    */
   get CSS() {
     return {
@@ -71,8 +73,7 @@ export default class Ui {
       imageContainer: 'image-tool__image',
       imagePreloader: 'image-tool__image-preloader',
       imageEl: 'image-tool__image-picture',
-      caption: 'image-tool__caption',
-      source: 'image-tool__source',
+      caption: 'image-tool__caption'
     };
   };
 
@@ -81,43 +82,55 @@ export default class Ui {
    * - empty
    * - uploading
    * - filled
-   *
-   * @returns {{EMPTY: string, UPLOADING: string, FILLED: string}}
+   * @return {{EMPTY: string, UPLOADING: string, FILLED: string}}
    */
   static get status() {
     return {
       EMPTY: 'empty',
       UPLOADING: 'loading',
-      FILLED: 'filled',
+      FILLED: 'filled'
     };
   }
 
   /**
-   * Renders tool UI
-   *
-   * @param {ImageToolData} toolData - saved tool data
-   * @returns {Element}
+   * @param {ImageToolData} toolData
+   * @return {HTMLDivElement}
    */
   render(toolData) {
-    console.log('image.ui render (toolData)', toolData)
     if (!toolData.file || Object.keys(toolData.file).length === 0) {
+      // Если мало данных то мы ставим статус пусто
       this.toggleStatus(Ui.status.EMPTY);
     } else {
+      // Если есть изображение то статус загрузка
       this.toggleStatus(Ui.status.UPLOADING);
     }
-
     return this.nodes.wrapper;
+  }
+
+  // eslint-disable-next-line require-jsdoc
+
+  /**
+   * Creates upload-file button
+   * @return {Element}
+   */
+  createAddButton() {
+    const addButton = make('div', [ this.CSS.button ]);
+    addButton.innerHTML = this.config.buttonContent || `${buttonIcon} Add Image`;
+    addButton.addEventListener('click', () => {
+      this.nodes.list.appendChild();
+      console.log(this.nodes.list);
+    });
+    return addButton;
   }
 
   /**
    * Creates upload-file button
-   *
-   * @returns {Element}
+   * @return {Element}
    */
   createFileButton() {
-    const button = make('div', [this.CSS.button]);
+    const button = make('div', [ this.CSS.button ]);
 
-    button.innerHTML = this.config.buttonContent || `${buttonIcon} ${this.api.i18n.t('Select an Image')}`;
+    button.innerHTML = this.config.buttonContent || `${buttonIcon} ${this.api.i18n.t('Add Image')}`;
 
     button.addEventListener('click', () => {
       this.onSelectFile();
@@ -128,9 +141,7 @@ export default class Ui {
 
   /**
    * Shows uploading preloader
-   *
    * @param {string} src - preview source
-   * @returns {void}
    */
   showPreloader(src) {
     this.nodes.imagePreloader.style.backgroundImage = `url(${src})`;
@@ -140,19 +151,15 @@ export default class Ui {
 
   /**
    * Hide uploading preloader
-   *
-   * @returns {void}
    */
   hidePreloader() {
-    this.nodes.imagePreloader.style.backgroundImage = '';
+    this.nodes.item.imagePreloader.style.backgroundImage = '';
     this.toggleStatus(Ui.status.EMPTY);
   }
 
   /**
    * Shows an image
-   *
-   * @param {string} url - image source
-   * @returns {void}
+   * @param {string} url
    */
   fillImage(url) {
     /**
@@ -161,14 +168,13 @@ export default class Ui {
     const tag = /\.mp4$/.test(url) ? 'VIDEO' : 'IMG';
 
     const attributes = {
-      src: url,
+      src: url
     };
 
     /**
      * We use eventName variable because IMG and VIDEO tags have different event to be called on source load
      * - IMG: load
      * - VIDEO: loadeddata
-     *
      * @type {string}
      */
     let eventName = 'load';
@@ -179,7 +185,6 @@ export default class Ui {
     if (tag === 'VIDEO') {
       /**
        * Add attributes for playing muted mp4 as a gif
-       *
        * @type {boolean}
        */
       attributes.autoplay = true;
@@ -189,7 +194,6 @@ export default class Ui {
 
       /**
        * Change event to be listened
-       *
        * @type {string}
        */
       eventName = 'loadeddata';
@@ -197,7 +201,6 @@ export default class Ui {
 
     /**
      * Compose tag with defined attributes
-     *
      * @type {Element}
      */
     this.nodes.imageEl = make(tag, this.CSS.imageEl, attributes);
@@ -221,47 +224,34 @@ export default class Ui {
 
   /**
    * Shows caption input
-   *
    * @param {string} text - caption text
-   * @returns {void}
    */
   fillCaption(text) {
-    console.log('fillCaption (text)', text)
     if (this.nodes.caption) {
       this.nodes.caption.innerHTML = text;
     }
   }
 
-  fillSource(text) {
-    console.log('fillSource (text)', text)
-    if (this.nodes.source) {
-      this.nodes.source.innerHTML = text;
-    }
-  }
-
   /**
    * Changes UI status
-   *
    * @param {string} status - see {@link Ui.status} constants
-   * @returns {void}
    */
   toggleStatus(status) {
     for (const statusType in Ui.status) {
-      if (Object.prototype.hasOwnProperty.call(Ui.status, statusType)) {
-        this.nodes.wrapper.classList.toggle(`${this.CSS.wrapper}--${Ui.status[statusType]}`, status === Ui.status[statusType]);
+      // eslint-disable-next-line no-prototype-builtins
+      if (Ui.status.hasOwnProperty(statusType)) {
+        this.nodes.item.classList.toggle(`${this.CSS.wrapper}--${Ui.status[statusType]}`, status === Ui.status[statusType]);
       }
     }
   }
 
   /**
    * Apply visual representation of activated tune
-   *
    * @param {string} tuneName - one of available tunes {@link Tunes.tunes}
    * @param {boolean} status - true for enable, false for disable
-   * @returns {void}
    */
   applyTune(tuneName, status) {
-    this.nodes.wrapper.classList.toggle(`${this.CSS.wrapper}--${tuneName}`, status);
+    this.nodes.item.classList.toggle(`${this.CSS.wrapper}--${tuneName}`, status);
   }
 }
 
@@ -269,9 +259,9 @@ export default class Ui {
  * Helper for making Elements with attributes
  *
  * @param  {string} tagName           - new Element tag name
- * @param  {Array|string} classNames  - list or name of CSS class
- * @param  {object} attributes        - any attributes
- * @returns {Element}
+ * @param  {array|string} classNames  - list or name of CSS class
+ * @param  {Object} attributes        - any attributes
+ * @return {Element}
  */
 export const make = function make(tagName, classNames = null, attributes = {}) {
   const el = document.createElement(tagName);

@@ -72,7 +72,7 @@ class Quote {
 	 * @returns {string}
 	 */
 	static get DEFAULT_QUOTE_PLACEHOLDER() {
-		return 'Enter a quote';
+		return 'Текст';
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Quote {
 	 * @returns {string}
 	 */
 	static get DEFAULT_CAPTION_PLACEHOLDER() {
-		return 'Enter a caption';
+		return 'Подпись';
 	}
 
 	/**
@@ -116,7 +116,13 @@ class Quote {
 			/**
 			 * To create Quote data from string, simple fill 'text' property
 			 */
-			import: 'text',
+			import: (data = '') => {
+				console.log('quoteTool import', data);
+				return {
+					text: data.trim(),
+					caption: '',
+				};
+			},
 			/**
 			 * To create string from Quote data, concatenate text and caption
 			 *
@@ -124,7 +130,7 @@ class Quote {
 			 * @returns {string}
 			 */
 			export: function (quoteData) {
-				return quoteData.caption ? `${quoteData.text} — ${quoteData.caption}` : quoteData.text;
+				return quoteData.caption ? `${quoteData.text} <br><br> ${quoteData.caption}` : quoteData.text;
 			},
 		};
 	}
@@ -225,28 +231,61 @@ class Quote {
 	 * @returns {QuoteData}
 	 */
 	save(quoteElement) {
-		const text = quoteElement.querySelector(`.${this.CSS.text}`);
-		const caption = quoteElement.querySelector(`.${this.CSS.caption}`);
-
-		return Object.assign(this.data, {
-			text: text.innerHTML,
-			caption: caption.innerHTML,
+		const [text, caption] = ['text', 'caption'].map((fieldName) => {
+			return quoteElement.querySelector(`.${this.CSS[fieldName]}`).innerHTML;
 		});
+
+		console.log('quoteTool save()', { text, caption });
+
+		return Object.assign(this.data, { text, caption });
 	}
 
 	/**
 	 * Sanitizer rules
 	 */
 	static get sanitize() {
+		console.log('quoteTool sanitize()', this);
 		return {
 			text: {
+				blockquote: true,
+				p: true,
 				br: true,
 			},
 			caption: {
+				a: {
+					href: true,
+					target: true,
+				},
 				br: true,
+				div: {
+					class: true,
+				},
 			},
 			alignment: {},
 		};
+	}
+
+	static get pasteConfig() {
+		return {
+			tags: ['BLOCKQUOTE'],
+			patterns: {
+				text: /(.*)</,
+				caption: /<\/\w{1,3}><\w{1,3}>?(.*)<?\/?\w{1,3}>?/,
+			},
+		};
+	}
+
+	onPaste(event) {
+		console.log('quoteTool onPaste', event.type, event.detail);
+		console.log('event.detail.data.innerHTML', event.detail.data.innerHTML);
+		console.log('event.detail.data.innerText', event.detail.data.innerText);
+
+		const data = {
+			text: event.detail.data.innerText,
+			caption: 'fdsf',
+		};
+
+		this.data = data;
 	}
 
 	/**

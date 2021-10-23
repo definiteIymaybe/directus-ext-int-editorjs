@@ -1,0 +1,27 @@
+{
+  "time": 1635655212443,
+  "blocks": [
+    {
+      "id": "e9EVeiTWnA",
+      "type": "image",
+      "data": {
+        "file": {
+          "size": "22965",
+          "name": "fabrichnye_rayony_vladykino_nachalo_xx_veka.jpg",
+          "title": "Владыкинский концлагерь",
+          "description": "Фабричные районы Владыкино, будущий район концлагеря. Начало XX века.",
+          "source": "журнал «Техника и вооружение». 2006, № 9",
+          "extension": "jpg",
+          "fileId": "62dd6d2f-d8cb-4fe1-a6d0-1287cc723cf7",
+          "fileURL": "/files/62dd6d2f-d8cb-4fe1-a6d0-1287cc723cf7",
+          "url": "/assets/62dd6d2f-d8cb-4fe1-a6d0-1287cc723cf7"
+        },
+        "caption": "ddd",
+        "withBorder": false,
+        "stretched": false,
+        "withBackground": false
+      }
+    }
+  ],
+  "version": "2.22.2"
+}
