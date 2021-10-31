@@ -1,0 +1,9 @@
+{
+  "name": "topos-image",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@codexteam/ajax": "^4.2.0"
+  }
+}
