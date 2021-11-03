@@ -1,4 +1,4 @@
-import ImageTool from '@editorjs/image';
+import ImageTool from '../topos-tools/topos-image';
 import Uploader from '../editorjs-uploader';
 
 /**
