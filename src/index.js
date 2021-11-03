@@ -1,7 +1,6 @@
-import { defineInterface } from '@directus/shared/utils';
 import InterfaceComponent from './interface.vue';
 
-export default defineInterface({
+export default {
 	id: 'extension-editorjs',
 	name: 'Editor.js',
 	description: 'Block-styled editor for rich media stories, outputs clean data in JSON using Editor.js',
@@ -119,4 +118,4 @@ export default defineInterface({
 			},
 		},
 	],
-});
+};
