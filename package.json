@@ -21,6 +21,7 @@
 		"hidden": false
 	},
 	"scripts": {
+		"start": "nodemon --watch src --exec \"npx directus-extension build\"",
 		"dist": "directus-extension build && mv dist editorjs && zip -r editorjs.zip editorjs",
 		"prepack": "directus-extension build"
 	},
