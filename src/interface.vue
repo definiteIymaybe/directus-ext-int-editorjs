@@ -411,11 +411,17 @@ export default defineComponent({
 		}
 
 		function getToken() {
+<<<<<<< HEAD
 			return (
 				api.defaults.headers?.['Authorization']?.split(' ')[1] ||
 				api.defaults.headers?.common?.['Authorization']?.split(' ')[1] ||
 				null
 			);
+=======
+			return api.defaults.headers?.['Authorization']?.split(' ')[1]
+				|| api.defaults.headers?.common?.['Authorization']?.split(' ')[1]
+				|| null;
+>>>>>>> main
 		}
 
 		function addTokenToURL(url, token) {
