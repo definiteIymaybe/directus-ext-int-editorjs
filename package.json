@@ -1,5 +1,6 @@
 {
   "name": "directus-extension-editorjs",
+  "icon": "extension",
   "version": "1.5.0",
   "author": {
     "email": "dimitrovadrian+gh@gmail.com",
@@ -17,7 +18,7 @@
   "keywords": [
     "directus",
     "directus-extension",
-    "directus-custom-interface",
+    "directus-extension-interface",
     "editorjs",
     "block-editor"
   ],
@@ -25,18 +26,18 @@
     "type": "interface",
     "path": "dist/index.js",
     "source": "src/index.ts",
-    "host": "^v9.9.0",
-    "hidden": false
+    "host": "^10.10.0"
   },
   "scripts": {
     "build": "directus-extension build",
-    "dev": "directus-extension build -w --no-minify"
+    "dev": "directus-extension build -w --no-minify",
+    "link": "directus-extension link"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
-    "@directus/extensions-sdk": "^9.10.0",
+    "@directus/extensions-sdk": "11.0.2",
     "@editorjs/attaches": "^1.2.1",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/code": "^2.7.0",
@@ -46,33 +47,20 @@
     "@editorjs/header": "^2.6.2",
     "@editorjs/image": "^2.6.2",
     "@editorjs/inline-code": "^1.3.1",
-    "@editorjs/marker": "^1.2.2",
-    "@editorjs/nested-list": "^1.0.2",
     "@editorjs/paragraph": "^2.8.0",
-    "@editorjs/personality": "^2.0.2",
     "@editorjs/quote": "^2.4.0",
     "@editorjs/raw": "^2.3.0",
     "@editorjs/simple-image": "^1.4.1",
     "@editorjs/table": "^2.0.1",
     "@editorjs/underline": "^1.0.0",
-    "@editorjs/warning": "^1.2.0",
-    "editorjs-undo": "^2.0.5",
     "@itech-indrustries/editorjs-strikethrough": "^1.0.0",
     "directus-codestyle": "dimitrov-adrian/directus-codestyle",
-    "editorjs-alert": "^1.0.3",
     "editorjs-list": "^2.1.4",
     "editorjs-text-alignment-blocktune": "^1.0.3",
+    "editorjs-undo": "^2.0.5",
     "lodash": "^4.17.21",
-    "typescript": "^4.7.4"
-  },
-  "prettier": "directus-codestyle/prettier",
-  "stylelint": {
-    "extends": "directus-codestyle/stylelint"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/directus-codestyle/.eslintrc.js",
-    "parserOptions": {
-      "sourceType": "module"
-    }
+    "sass": "^1.55.0",
+    "typescript": "^5.4.4",
+    "vue": "^3.4.21"
   }
 }
