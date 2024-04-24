@@ -35,7 +35,9 @@ export default function getTranslations(t: (str: string) => string): I18nConfig 
 				Underline: t('wysiwyg_options.underline'),
 				Italic: t('wysiwyg_options.italic'),
 				Inlinecode: t('interfaces.input-code.code'),
+				Inlinesmall: 'Small',
 				Strikethrough: t('wysiwyg_options.strikethrough'),
+				'Inverted Delimiter': 'Invertierter Bereich',
 			},
 			tools: {
 				header: {
@@ -46,7 +48,7 @@ export default function getTranslations(t: (str: string) => string): I18nConfig 
 					'Add a link': t('field_options.directus_roles.fields.link_placeholder'),
 				},
 				image: {
-					Caption: t('title'),
+					Caption: 'Titel (Bitte Beschreibung in Bilddetail verwenden!)',
 					'Select an Image': t('interfaces.file-image.description'),
 					'With border': t('displays.formatted-value.border_label'),
 					'Stretch image': t('full_width'),
@@ -70,6 +72,22 @@ export default function getTranslations(t: (str: string) => string): I18nConfig 
 				},
 				raw: {
 					'Enter a code': t('enter_raw_value'),
+				},
+				inverteddelimiter: {
+					'Inverted Delimiter': 'Invertierter Bereich',
+				},
+				button: {
+					'Url placeholder': 'Bitte eine URL eingeben',
+					'Url label': 'URL Link',
+					'Button placeholder': 'Bitte ein Button Label eingeben',
+					'Button label': 'Label',
+					'Checkbox label': 'In einem neuen Tab öffnen',
+					'EditorJs Button title': 'Button',
+				},
+				iframe: {
+					'Url placeholder': 'Bitte eine URL eingeben',
+					'Url label': 'URL Link',
+					'EditorJs Iframe title': 'Iframe',
 				},
 			},
 			blockTunes: {

@@ -1,4 +1,4 @@
-import { defineInterface } from '@directus/extensions-sdk';
+import { defineInterface } from '@directus/extensions';
 import InterfaceComponent from './interface.vue';
 
 export default defineInterface({
@@ -54,7 +54,7 @@ export default defineInterface({
 			name: '$t:interfaces.input-rich-text-html.toolbar',
 			type: 'json',
 			schema: {
-				default_value: ['header', 'nestedlist', 'code', 'image', 'paragraph', 'delimiter', 'checklist', 'quote', 'underline'],
+				default_value: ['header', 'paragraph', 'nestedlist', 'quote', 'image', 'embed', 'inlinesmall', 'inverteddelimiter', 'button', 'iframe', 'raw', 'delimiter'],
 			},
 			meta: {
 				width: 'half',
@@ -64,10 +64,6 @@ export default defineInterface({
 						{
 							value: 'header',
 							text: 'Header',
-						},
-						{
-							value: 'list',
-							text: 'List (legacy)',
 						},
 						{
 							value: 'nestedlist',
@@ -90,10 +86,6 @@ export default defineInterface({
 							text: 'Image',
 						},
 						{
-							value: 'warning',
-							text: 'Warning',
-						},
-						{
 							value: 'attaches',
 							text: 'Attaches',
 						},
@@ -104,10 +96,6 @@ export default defineInterface({
 						{
 							value: 'quote',
 							text: 'Quote',
-						},
-						{
-							value: 'marker',
-							text: 'Marker',
 						},
 						{
 							value: 'simpleimage',
@@ -122,8 +110,8 @@ export default defineInterface({
 							text: 'Inline Code',
 						},
 						{
-							value: 'alert',
-							text: 'Alert',
+							value: 'inlinesmall',
+							text: 'Inline Small',
 						},
 						{
 							value: 'strikethrough',
@@ -142,12 +130,20 @@ export default defineInterface({
 							text: 'Checklist',
 						},
 						{
-							value: 'personality',
-							text: 'Personality',
-						},
-						{
 							value: 'raw',
 							text: 'Raw HTML',
+						},
+						{
+							value: 'inverteddelimiter',
+							text: 'Inverted Delimiter',
+						},
+						{
+							value: 'button',
+							text: 'Button',
+						},
+						{
+							value: 'iframe',
+							text: 'Iframe',
 						},
 					],
 				},
@@ -176,9 +172,6 @@ export default defineInterface({
 				width: 'full',
 				interface: 'system-folder',
 				note: '$t:interfaces.system-folder.field_hint',
-			},
-			schema: {
-				default_value: undefined,
 			},
 		},
 	],
